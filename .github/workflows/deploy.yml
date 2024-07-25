@@ -21,6 +21,7 @@ jobs:
         mv public/* deploy/transit/
         mv * deploy/transit/site/ || true
         mv deploy/transit/site/public/* deploy/transit/ || true
+        cp .env.example deploy/transit/site/.env
 
     - name: Install Dependencies
       run: |
