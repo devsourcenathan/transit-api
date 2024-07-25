@@ -34,7 +34,7 @@ jobs:
     - name: Deploy to FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-        server: ftp://istam.tech
+        server: istam.tech
         username: u992053974
         password: Sadenachbi@13
         local-dir: ./deploy/
