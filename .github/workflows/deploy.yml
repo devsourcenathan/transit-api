@@ -34,20 +34,20 @@ jobs:
     - name: Deploy to FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ftp://istam.tech
+        username: u992053974
+        password: Sadenachbi@13
         local-dir: ./deploy/
         server-dir: /public_html/transit/
 
     - name: Execute post-deployment commands
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
+        host: 195.35.49.232
+        username: u992053974
+        password: Sadenachbi@13
         script: |
           cd /public_html/transit/site
-          php artisan optimize
           php artisan migrate
           php artisan storage:link
+          php artisan optimize
