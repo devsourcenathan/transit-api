@@ -26,7 +26,6 @@ jobs:
         password: Sadenachbi@13
         port: 65002
         script: |
-          script: |
           echo "Current directory:"
           pwd
           echo "Changing to /home/u992053974/public_html/transit:"
@@ -35,10 +34,11 @@ jobs:
           pwd
           echo "Listing current directory contents:"
           ls -la
-          echo "Updating Composer to version 2.5.8:"
+          echo "Installing Composer version 2.5.8:"
           php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-          php composer-setup.php --version=2.5.8 --install-dir=/usr/local/bin --filename=composer
+          php composer-setup.php --version=2.5.8 --install-dir=$HOME/.local/bin --filename=composer
           php -r "unlink('composer-setup.php');"
+          export PATH="$HOME/.local/bin:$PATH"
           echo "Composer version:"
           composer --version
           echo "PHP version:"
