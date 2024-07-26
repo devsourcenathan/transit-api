@@ -35,9 +35,9 @@ jobs:
           pwd
           echo "Listing current directory contents:"
           ls -la
-          echo "Updating Composer to version 2:"
+          echo "Updating Composer to version 2.5.8:"
           php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-          php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+          php composer-setup.php --version=2.5.8 --install-dir=/usr/local/bin --filename=composer
           php -r "unlink('composer-setup.php');"
           echo "Composer version:"
           composer --version
