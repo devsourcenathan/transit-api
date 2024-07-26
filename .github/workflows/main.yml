@@ -26,11 +26,27 @@ jobs:
         password: Sadenachbi@13
         port: 65002
         script: |
-          cd /public_html/transit/
+          echo "Current directory:"
+          pwd
+          echo "Listing /public_html contents:"
+          ls -la /public_html/
+          echo "Changing to /public_html/transit:"
+          cd /public_html/transit || { echo "Failed to change directory"; exit 1; }
+          echo "Current directory after cd:"
+          pwd
+          echo "Listing current directory contents:"
+          ls -la
+          echo "Installing dependencies:"
           composer install --no-interaction --prefer-dist --optimize-autoloader
+          echo "Generating application key:"
           php artisan key:generate
+          echo "Running migrations:"
           php artisan migrate --force
+          echo "Caching configuration:"
           php artisan config:cache
+          echo "Caching routes:"
           php artisan route:cache
+          echo "Caching views:"
           php artisan view:cache
+          echo "Setting permissions:"
           chmod -R 775 storage bootstrap/cache
