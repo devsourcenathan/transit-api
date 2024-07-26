@@ -31,4 +31,4 @@ jobs:
         username: u992053974
         password: Sadenachbi@13
         local-dir: ./deploy/
-        server-dir: /public_html/transit
+        server-dir: /public_html/transit/
