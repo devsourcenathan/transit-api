@@ -40,6 +40,7 @@ jobs:
         host: 195.35.49.232
         username: u992053974
         password: Sadenachbi@13
+        port: 65002
         script: |
           cd /public_html
           tar -xzf deploy.tar.gz
