@@ -1,0 +1,36 @@
+name: Deploy Laravel Project
+
+on:
+  push:
+    branches: [ main ]  # ou le nom de votre branche principale
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy to FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: istam.tech
+        username: u992053974
+        password: Sadenachbi@13
+        server-dir: /public_html/transit
+
+    - name: Execute post-deployment commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: 195.35.49.232
+        username: u992053974
+        password: Sadenachbi@13
+        port: 65002
+        script: |
+          cd /public_html/transit
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+          php artisan key:generate
+          php artisan migrate --force
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          chmod -R 775 storage bootstrap/cache
