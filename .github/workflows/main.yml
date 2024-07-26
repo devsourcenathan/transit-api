@@ -16,7 +16,7 @@ jobs:
         server: istam.tech
         username: u992053974
         password: Sadenachbi@13
-        server-dir: /public_html/transit
+        server-dir: /public_html/transit/
 
     - name: Execute post-deployment commands
       uses: appleboy/ssh-action@master
@@ -26,7 +26,7 @@ jobs:
         password: Sadenachbi@13
         port: 65002
         script: |
-          cd /public_html/transit
+          cd /public_html/transit/
           composer install --no-interaction --prefer-dist --optimize-autoloader
           php artisan key:generate
           php artisan migrate --force
