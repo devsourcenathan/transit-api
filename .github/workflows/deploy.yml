@@ -15,28 +15,15 @@ jobs:
       with:
         php-version: '8.2.0'
 
-    - name: Create deployment structure
+    - name: Create deployment structure and compress
       run: |
         mkdir -p deploy/transit/site
         mv public/* deploy/transit/
         mv * deploy/transit/site/ || true
         mv deploy/transit/site/public/* deploy/transit/ || true
         cp .env.example deploy/transit/site/.env
-
-    - name: Install Dependencies
-      run: |
-        cd deploy/transit/site
-        composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-    - name: Generate key
-      run: |
-        cd deploy/transit/site
-        php artisan key:generate
-
-    - name: Directory Permissions
-      run: |
-        cd deploy/transit/site
-        chmod -R 755 storage bootstrap/cache
+        cd deploy
+        tar -czf deploy.tar.gz transit
 
     - name: Deploy to FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
@@ -45,16 +32,21 @@ jobs:
         username: u992053974
         password: Sadenachbi@13
         local-dir: ./deploy/
-        server-dir: /public_html/transit/
+        server-dir: /public_html/
 
-    - name: Execute post-deployment commands
+    - name: Decompress, install dependencies and setup
       uses: appleboy/ssh-action@master
       with:
         host: 195.35.49.232
         username: u992053974
         password: Sadenachbi@13
         script: |
-          cd /public_html/transit/site
+          cd /public_html
+          tar -xzf deploy.tar.gz
+          rm deploy.tar.gz
+          cd transit/site
+          composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
           php artisan migrate
           php artisan storage:link
           php artisan optimize
